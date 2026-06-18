@@ -157,7 +157,7 @@ export function Navbar() {
           ) : (
             <button
               onClick={handleGitHubSignIn}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-forge-800 border border-border hover:border-border-hover text-text-primary text-sm font-medium transition-all duration-200 hover:bg-forge-700"
+              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg bg-forge-800 border border-border hover:border-border-hover text-text-primary text-xs sm:text-sm font-medium transition-all duration-200 hover:bg-forge-700"
             >
               <GitHubIcon />
               <span className="hidden sm:block">Sign in with GitHub</span>
