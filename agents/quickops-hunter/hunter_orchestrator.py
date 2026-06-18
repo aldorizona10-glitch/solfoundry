@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-QuickOps Hunter Orchestrator (T3 Prototype)
+SolFoundry Bounty Discovery Service
 Autonomous lifecycle management for GitHub bounty fulfillment.
 """
 
@@ -16,7 +16,7 @@ class HunterOrchestrator:
 
     def discover_opportunities(self, labels=["bounty", "reward"]):
         """
-        Autonomous discovery of opportunities using GitHub API.
+        Automated discovery of opportunities using GitHub API.
         Filters for specific labels and open state.
         """
         print(f"[*] Scanning {self.repo} for opportunities with labels: {labels}")
