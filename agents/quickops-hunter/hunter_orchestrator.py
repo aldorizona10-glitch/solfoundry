@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 SolFoundry Bounty Discovery Service
-Autonomous lifecycle management for GitHub bounty fulfillment.
+Automated lifecycle management for software forge operations.
 """
 
 import json
@@ -9,42 +9,28 @@ import urllib.request
 import urllib.error
 import time
 
-class HunterOrchestrator:
-    def __init__(self, repo_target):
-        self.repo = repo_target
-        self.base_url = f"https://api.github.com/repos/{repo_target}/issues"
+class DiscoveryPipeline:
+    def __init__(self, target_repository):
+        self.repo = target_repository
+        self.api_base = f"https://api.github.com/repos/{target_repository}/issues"
 
-    def discover_opportunities(self, labels=["bounty", "reward"]):
+    def scan_for_tasks(self, task_labels=["bounty", "reward"]):
         """
-        Automated discovery of opportunities using GitHub API.
-        Filters for specific labels and open state.
+        Scans the target repository for open tasks matching specific labels.
         """
-        print(f"[*] Scanning {self.repo} for opportunities with labels: {labels}")
-        
-        query_url = f"{self.base_url}?state=open&labels={','.join(labels)}"
+        print(f"[*] Scanning {self.repo} for tasks: {task_labels}")
+        url = f"{self.api_base}?state=open&labels={','.join(task_labels)}"
         
         try:
-            with urllib.request.urlopen(query_url) as response:
-                issues = json.loads(response.read().decode())
-                print(f"[+] Found {len(issues)} potential opportunities.")
-                for issue in issues:
-                    print(f"    - #{issue['number']}: {issue['title']}")
-                return issues
-        except urllib.error.HTTPError as e:
-            print(f"[!] API Error: {e.code}")
-            return []
+            req = urllib.request.Request(url)
+            with urllib.request.urlopen(req) as response:
+                tasks = json.loads(response.read().decode())
+                print(f"[+] Found {len(tasks)} tasks.")
+                return tasks
         except Exception as e:
-            print(f"[!] Error: {str(e)}")
+            print(f"[!] Operation failed: {str(e)}")
             return []
-
-    def analyze_payload(self, issue):
-        """Extract technical constraints for implementation planning."""
-        # Placeholder for LLM-based requirement analysis
-        body = issue.get('body', '')
-        print(f"[*] Analyzing #{issue['number']} technical requirements...")
-        return {"id": issue['number'], "complexity": "TBD"}
 
 if __name__ == "__main__":
-    # Self-test discovery logic
-    orchestrator = HunterOrchestrator("SolFoundry/solfoundry")
-    orchestrator.discover_opportunities()
+    pipeline = DiscoveryPipeline("SolFoundry/solfoundry")
+    pipeline.scan_for_tasks()
